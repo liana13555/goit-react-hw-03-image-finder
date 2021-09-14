@@ -1,9 +1,10 @@
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 import PropTypes from 'prop-types';
+import { StyledGallery } from './ImageGallery.styled';
 
 const ImageGallery = ({ images, largeImage  }) => {
   return (
-    <ul className="ImageGallery">
+    <StyledGallery >
       {images.map(image => (
         <ImageGalleryItem
           key={image.id}
@@ -12,11 +13,10 @@ const ImageGallery = ({ images, largeImage  }) => {
           tags={image.tags}
           onClick={() => largeImage(image)}               
         />
-      ))};
-    </ul>
+      ))}
+    </StyledGallery>
   );
 };
-
 
 ImageGallery.propTypes = {
   images: PropTypes.arrayOf(

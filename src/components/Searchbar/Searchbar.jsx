@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-import '../../styles/styles.css';
-
+import { Header, Form, Button, BtnLabel, Input } from './Searchbar.module';
 
 const Searchbar = ({ onSearch }) => {
     const handleSearch = e => {
@@ -10,22 +9,21 @@ const Searchbar = ({ onSearch }) => {
     };     
 
     return (
-        <header className="Searchbar">
-            <form className="SearchForm" onSubmit={handleSearch} >
-                <button type="submit" className="SearchForm-button">
-                    <span className="SearchForm-button-label">Search</span>
-                </button>
+        <Header>
+            <Form onSubmit={handleSearch} >
+                <Button type="submit">
+                    <BtnLabel>Search</BtnLabel>
+                </Button>
 
-                <input
-                    className="SearchForm-input"
+                <Input
                     type="text"
                     autoComplete="off"
                     autoFocus
                     placeholder="Search images and photos"
                     name="imageName"
                 />
-            </form>
-        </header>
+            </Form>
+        </Header>
     );
 };
 

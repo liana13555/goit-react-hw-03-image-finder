@@ -73,7 +73,6 @@ export default class App extends Component {
   render() {
     const { images, showModal, modalImage, reqStatus } = this.state;
 
-    const showButton = images.length >= 1;
     return (
       <div>
         <Searchbar onSearch={this.handleFormSubmit} />
@@ -83,7 +82,7 @@ export default class App extends Component {
           toggleModal={this.toggleModal}
           largeImage={this.handleSelectedImage}
         />
-        {showButton && <Button onClick={this.loadMoreBtn} />}
+        {reqStatus === Status.RESOLVED && <Button onClick={this.loadMoreBtn} />}
         {showModal && <Modal modalImage={modalImage} onClose={this.toggleModal} />}
       </div>
     );

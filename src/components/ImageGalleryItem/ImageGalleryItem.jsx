@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
+import { Item, Image } from './ImageGalleryItem.styled';
 
 export default function ImageGalleryItem({ webformatURL, tags, onClick }) {
     return (
-        <li className="ImageGalleryItem">
-            <img src={webformatURL}
+        <Item >
+            <Image src={webformatURL}
                 alt={tags}
                 onClick={onClick}
-                className="ImageGalleryItem-image"
             />
-        </li>
+        </Item>
     );
 };
 
