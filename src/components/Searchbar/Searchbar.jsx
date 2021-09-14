@@ -1,40 +1,36 @@
-import { Component } from 'react';
+import PropTypes from 'prop-types';
+import '../../styles/styles.css';
 
-export default class Searchbar extends Component {
-    state = {
-        imageName: '',
-    }
 
-    handleSubmit = event => {
-    event.preventDefault();
+const Searchbar = ({ onSearch }) => {
+    const handleSearch = e => {
+        e.preventDefault();
 
-    if (this.state.imageName.trim() === '') {
-    //   toast.error('Введите имя покемона.');
-      return;
-    }
+        onSearch(e.target.elements.imageName.value);
+    };     
 
-    this.props.onSubmit(this.state.imageName);
-    this.setState({ imageName: '' });
-  };
+    return (
+        <header className="Searchbar">
+            <form className="SearchForm" onSubmit={handleSearch} >
+                <button type="submit" className="SearchForm-button">
+                    <span className="SearchForm-button-label">Search</span>
+                </button>
 
-    render() {
-        return (
-            <header className="Searchbar">
-                <form className="SearchForm" onSubmit={this.handleSubmit} >
-                    <button type="submit" className="SearchForm-button">
-                        <span className="SearchForm-button-label">Search</span>
-                    </button>
+                <input
+                    className="SearchForm-input"
+                    type="text"
+                    autoComplete="off"
+                    autoFocus
+                    placeholder="Search images and photos"
+                    name="imageName"
+                />
+            </form>
+        </header>
+    );
+};
 
-                    <input
-                        className="SearchForm-input"
-                        type="text"
-                        autocomplete="off"
-                        autofocus
-                        placeholder="Search images and photos"
-                    />
-                </form>
-            </header>          
-        );
-    }
-}
+Searchbar.propTypes = {
+  onSearch: PropTypes.func.isRequired,
+};
 
+export default Searchbar;

@@ -1,16 +1,22 @@
-import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { LoadMoreButton } from './Button.styled';
 
-export default class Button extends Component {
-    render() {
-        return (
-            <div>
-                
-            </div>
-        );
-    }
-}
+function Button({ onClick }) {
+    return (
+      <LoadMoreButton
+        type="button"
+        onClick={onClick}
+      >
+        Load more
+      </LoadMoreButton>
+    );
+} 
 
+Button.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};
 
+export default Button;
 
 // window.scrollTo({
 //   top: document.documentElement.scrollHeight,
