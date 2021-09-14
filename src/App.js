@@ -4,24 +4,46 @@ import fetchImages from './services/pixabay-api';
 import ImageGallery from './components/ImageGallery/ImageGallery.jsx';
 import Button from './components/Button/Button.jsx';
 import Modal from './components/Modal/Modal.jsx';
+import Spinner from './components/Loader/Loader.jsx';
+
+const Status = {
+  IDLE: 'idle',
+  PENDING: 'pending',
+  RESOLVED: 'resolved',
+  REJECTED: 'rejected',
+};
 
 export default class App extends Component {
   state = {
     imageName: '',
     images: [],
-    reqStatus: 'idle',
+    reqStatus: Status.IDLE,
     page: 1,
     showModal: false,
     modalImage: null,
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    const nextQuery = this.state.imageName;
+    const nextName = this.state.imageName;
     const nextPage = this.state.page;
 
-    if (prevState.imageName !== nextQuery || prevState.page !== nextPage) {
-      const images = await fetchImages(nextQuery, nextPage);
-      this.setState({ images });
+    if (prevState.imageName !== nextName || prevState.page !== nextPage) {
+      try {
+        this.setState({ reqStatus: Status.PENDING });
+        const images = await fetchImages(nextName, nextPage);
+        this.setState(prevState => ({
+          images: [...prevState.images, ...images],
+          reqStatus: Status.RESOLVED,
+        }));
+        if (prevState.images !== this.state.images) {
+          window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: 'smooth',
+          });
+        }
+      } catch (error) {
+        this.setState({ reqStatus: Status.REJECTED });
+      }
     }
   }
 
@@ -49,12 +71,13 @@ export default class App extends Component {
   };
 
   render() {
-    const { images, showModal, modalImage } = this.state;
+    const { images, showModal, modalImage, reqStatus } = this.state;
 
     const showButton = images.length >= 1;
     return (
       <div>
         <Searchbar onSearch={this.handleFormSubmit} />
+        {reqStatus === Status.PENDING && <Spinner />}
         <ImageGallery
           images={images}
           toggleModal={this.toggleModal}
